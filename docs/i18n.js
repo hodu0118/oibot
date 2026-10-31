@@ -1,0 +1,116 @@
+const LANGS = [['ko', '한국어'], ['en', 'English'], ['ja', '日本語']];
+// 키는 한국어 원문, 값은 [영어, 일본어]. 서버 오류 메시지도 여기서 번역돼요.
+const D = {
+  '홈': ['Home', 'ホーム'],
+  '서버 관리': ['Manage servers', 'サーバー管理'],
+  '로그아웃': ['Log out', 'ログアウト'],
+  '디스코드로 로그인': ['Log in with Discord', 'Discordでログイン'],
+  '언어': ['Language', '言語'],
+  '불러오는 중…': ['Loading…', '読み込み中…'],
+  '오이봇이 함께하는 서버': ['Servers with Oibot', 'オイボットが参加しているサーバー'],
+  '지금 {servers}개 서버, 멤버 합계 {members}명이 함께해요.': ['Right now: {servers} servers and {members} members in total.', '現在 {servers}サーバー、メンバー合計 {members}人が参加中です。'],
+  '오이봇 초대하기': ['Invite Oibot', 'オイボットを招待'],
+  '내 서버 관리하기': ['Manage my servers', '自分のサーバーを管理'],
+  '서버 목록': ['Server list', 'サーバー一覧'],
+  '서버 목록은 공개하지 않아요.': ['The server list is private.', 'サーバー一覧は非公開です。'],
+  '{n}명': ['{n} members', '{n}人'],
+  '디스코드로 로그인하면, 관리자 권한이 있는 서버를 오이봇으로 관리할 수 있어요.': ['Log in with Discord to manage the servers where you are an admin.', 'Discordでログインすると、管理者権限のあるサーバーをオイボットで管理できます。'],
+  '관리할 서버를 골라주세요': ['Choose a server to manage', '管理するサーバーを選んでください'],
+  '오이봇이 있는 서버': ['Servers with Oibot', 'オイボットがいるサーバー'],
+  '관리자 권한이 있고 오이봇이 들어 있는 서버가 없어요. 아래에서 오이봇을 초대해보세요.': ['No server where you are an admin has Oibot yet. Invite it below.', '管理者権限があり、オイボットが参加しているサーバーがありません。下から招待してみてください。'],
+  '오이봇이 아직 없는 서버': ['Servers without Oibot', 'オイボットがまだいないサーバー'],
+  '오이봇 초대': ['Invite', '招待'],
+  '서버 목록으로 돌아가기': ['Back to server list', 'サーバー一覧に戻る'],
+  '← 서버 목록': ['← Server list', '← サーバー一覧'],
+  '개요': ['Overview', '概要'],
+  '멤버': ['Members', 'メンバー'],
+  '공지 보내기': ['Send announcement', 'お知らせを送信'],
+  '텍스트 채널': ['Text channels', 'テキストチャンネル'],
+  '음성 채널': ['Voice channels', 'ボイスチャンネル'],
+  '역할': ['Roles', 'ロール'],
+  '{n}개': ['{n}', '{n}個'],
+  '부스트': ['Boost', 'ブースト'],
+  '레벨 {tier} ({n}개)': ['Level {tier} ({n} boosts)', 'レベル{tier}（{n}個）'],
+  '서버 생성일': ['Server created', 'サーバー作成日'],
+  '내 권한': ['Your role', 'あなたの権限'],
+  '서버 주인': ['Server owner', 'サーバーオーナー'],
+  '관리 권한': ['Manager', '管理権限'],
+  '이름으로 검색': ['Search by name', '名前で検索'],
+  '멤버 검색': ['Search members', 'メンバー検索'],
+  '검색': ['Search', '検索'],
+  '더 보기': ['Load more', 'もっと見る'],
+  '{label} 완료': ['{label} done', '{label}完了'],
+  '추방': ['Kick', 'キック'],
+  '차단': ['Ban', 'BAN'],
+  '타임아웃': ['Timeout', 'タイムアウト'],
+  '{name} 추방': ['Kick {name}', '{name}をキック'],
+  '서버에서 내보내요. 초대 링크로 다시 들어올 수 있어요.': ['Removes them from the server. They can rejoin with an invite link.', 'サーバーから退出させます。招待リンクで再参加できます。'],
+  '추방하기': ['Kick', 'キックする'],
+  '사유': ['Reason', '理由'],
+  '선택 사항': ['Optional', '任意'],
+  '{name} 차단': ['Ban {name}', '{name}をBAN'],
+  '차단하면 다시 들어올 수 없어요.': ['A banned member cannot rejoin.', 'BANすると再参加できません。'],
+  '차단하기': ['Ban', 'BANする'],
+  '최근 메시지 삭제': ['Delete recent messages', '最近のメッセージを削除'],
+  '삭제 안 함': ['Do not delete', '削除しない'],
+  '1일': ['1 day', '1日'],
+  '7일': ['7 days', '7日'],
+  '{name} 타임아웃': ['Timeout {name}', '{name}をタイムアウト'],
+  '적용하기': ['Apply', '適用する'],
+  '기간': ['Duration', '期間'],
+  '10분': ['10 minutes', '10分'],
+  '1시간': ['1 hour', '1時間'],
+  '타임아웃 해제': ['Remove timeout', 'タイムアウト解除'],
+  '봇': ['Bot', 'BOT'],
+  '@{user} · 가입 {date}': ['@{user} · joined {date}', '@{user} · 参加日 {date}'],
+  '멤버를 찾지 못했어요.': ['No members found.', 'メンバーが見つかりません。'],
+  '오이봇이 보낼 메시지': ['Message Oibot will send', 'オイボットが送るメッセージ'],
+  '보내기': ['Send', '送信'],
+  '공지를 보냈어요.': ['Announcement sent.', 'お知らせを送信しました。'],
+  '오이봇이 볼 수 있는 텍스트 채널이 없어요.': ['Oibot cannot see any text channels.', 'オイボットが見られるテキストチャンネルがありません。'],
+  '채널': ['Channel', 'チャンネル'],
+  '내용': ['Message', '内容'],
+  '멘션(@everyone 등)은 알림 없이 글자로만 표시돼요.': ['Mentions (like @everyone) are shown as plain text without notifying.', 'メンション（@everyoneなど）は通知なしで文字だけ表示されます。'],
+  '확인': ['OK', 'OK'],
+  '취소': ['Cancel', 'キャンセル'],
+  '{n}개 서버에 {amount}포인트가 지급돼요!': ['{amount} points are on their way in {n} servers!', '{n}サーバーに{amount}ポイントが付与されます！'],
+  // 서버 오류 메시지
+  '요청에 실패했어요.': ['The request failed.', 'リクエストに失敗しました。'],
+  '오이봇 서버에 연결할 수 없어요. 잠시 후 다시 시도해주세요.': ['Cannot reach the Oibot server. Please try again shortly.', 'オイボットのサーバーに接続できません。しばらくしてからもう一度お試しください。'],
+  '로그인이 필요해요.': ['Please log in.', 'ログインが必要です。'],
+  '로그인이 만료됐어요. 다시 로그인해주세요.': ['Your login expired. Please log in again.', 'ログインの有効期限が切れました。もう一度ログインしてください。'],
+  '잘못된 로그인이에요.': ['Invalid login.', 'ログインが無効です。'],
+  '오이봇이 이 서버에 없어요.': ['Oibot is not in this server.', 'オイボットはこのサーバーにいません。'],
+  '이 서버를 관리할 권한이 없어요.': ['You do not have permission to manage this server.', 'このサーバーを管理する権限がありません。'],
+  '이 작업을 할 권한이 없어요.': ['You do not have permission for this action.', 'この操作を行う権限がありません。'],
+  '오이봇 자신은 대상이 될 수 없어요.': ['Oibot itself cannot be targeted.', 'オイボット自身は対象にできません。'],
+  '자기 자신에게는 사용할 수 없어요.': ['You cannot do this to yourself.', '自分自身には使えません。'],
+  '서버 주인에게는 사용할 수 없어요.': ['You cannot do this to the server owner.', 'サーバーオーナーには使えません。'],
+  '나와 역할 순위가 같거나 더 높은 멤버에게는 사용할 수 없어요.': ['You cannot do this to someone whose top role is equal to or higher than yours.', '自分と同じかそれ以上のロールを持つメンバーには使えません。'],
+  '타임아웃 시간은 0~40320분이어야 해요.': ['Timeout must be between 0 and 40320 minutes.', 'タイムアウトは0〜40320分で指定してください。'],
+  '멤버 목록을 불러올 수 없어요. 개발자 포털에서 Server Members Intent를 켰는지 확인해주세요.': ['Cannot load members. Check that Server Members Intent is enabled in the developer portal.', 'メンバー一覧を取得できません。開発者ポータルでServer Members Intentが有効か確認してください。'],
+  '채널을 선택해주세요.': ['Please choose a channel.', 'チャンネルを選択してください。'],
+  '내용은 1~2000자로 입력해주세요.': ['The message must be 1–2000 characters.', '内容は1〜2000文字で入力してください。'],
+  '해당 채널을 찾을 수 없어요.': ['Channel not found.', 'チャンネルが見つかりません。'],
+  '요청이 너무 많아요. 잠시 후 다시 시도해주세요.': ['Too many requests. Please try again shortly.', 'リクエストが多すぎます。しばらくしてからもう一度お試しください。'],
+  '오이봇의 권한이나 역할 순위가 부족해요. 서버 설정에서 오이봇 역할을 위로 올려주세요.': ['Oibot lacks permission or role rank. Move the Oibot role higher in server settings.', 'オイボットの権限またはロール順位が足りません。サーバー設定でオイボットのロールを上げてください。'],
+  '대상 멤버를 찾을 수 없어요.': ['Member not found.', '対象のメンバーが見つかりません。'],
+  '서버에 문제가 생겼어요. 잠시 후 다시 시도해주세요.': ['Something went wrong. Please try again shortly.', 'サーバーで問題が発生しました。しばらくしてからもう一度お試しください。'],
+};
+
+let LANG = localStorage.getItem('oibot_lang') ||
+  ({ ko: 'ko', ja: 'ja' })[(navigator.language || 'ko').slice(0, 2)] || 'en';
+document.documentElement.lang = LANG;
+
+const setLang = l => { LANG = l; localStorage.setItem('oibot_lang', l); document.documentElement.lang = l; };
+const locale = () => ({ ko: 'ko-KR', ja: 'ja-JP', en: 'en-US' })[LANG];
+const pick = key => {
+  const i = LANG === 'en' ? 0 : LANG === 'ja' ? 1 : -1;
+  return i >= 0 && D[key] ? D[key][i] : key;
+};
+// t('{name} 추방', {name}) → 문자열,  tn(...) → 중간에 HTML 요소를 끼워 넣을 때 (배열 반환)
+const t = (key, v) => pick(key).replace(/\{(\w+)\}/g, (m, k) => (v && k in v ? v[k] : m));
+const tn = (key, nodes) => pick(key).split(/(\{\w+\})/).map(p => {
+  const m = /^\{(\w+)\}$/.exec(p);
+  return m && nodes[m[1]] != null ? nodes[m[1]] : p;
+});
